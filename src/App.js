@@ -12,8 +12,10 @@ class App extends Component {
   }
 
   componentDidMount(){
-    this.makeAJAXCall('GET', API_URL, (data) => {
+    this.makeAJAXCall('GET', API_URL+'/wisdom', (data) => {
       this.setState({wisdom: data});
+    }, () => {
+      this.setState({wisdom: "Error fetching wisdom"});
     });   
   }
 
@@ -33,14 +35,18 @@ class App extends Component {
     );
   }
 
-  makeAJAXCall(methodType, url, callback){
+  makeAJAXCall(methodType, url, callback, errorCallback){
    var xhr = new XMLHttpRequest();
    xhr.open(methodType, url, true);
    xhr.onreadystatechange = function(){
-         if (xhr.readyState === 4 && xhr.state === 200){
+	 debugger;
+         if (xhr.readyState === 4 && xhr.status === 200){
              callback(xhr.response);
          }
      }
+   xhr.onerror = function () {
+	errorCallback();
+   }
      xhr.send();
    console.log("request sent to the server");
   }

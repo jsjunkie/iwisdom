@@ -39,7 +39,6 @@ class App extends Component {
    var xhr = new XMLHttpRequest();
    xhr.open(methodType, url, true);
    xhr.onreadystatechange = function(){
-	 debugger;
          if (xhr.readyState === 4 && xhr.status === 200){
              callback(xhr.response);
          }

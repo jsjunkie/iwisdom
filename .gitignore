@@ -7,7 +7,6 @@
 /coverage
 
 # production
-/src/constants.js
 /build
 
 # misc

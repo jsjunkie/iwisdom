@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import { API_URL } from './constants';
-import { callAPI } from './service.js';
+import { callAPI } from './service';
 import logo from './logo.png';
+import Search from './Search';
 
 class App extends Component {
 
@@ -27,6 +28,7 @@ class App extends Component {
         <div className="App-header">
           <div><img className="App-logo" src ={logo} alt="logo"></img></div>
         </div>
+	<Search />
 	<p>
 	 {this.state.wisdom}
 	</p>

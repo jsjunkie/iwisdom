@@ -5,10 +5,10 @@ class Main extends Component {
 	render() {
 	  return (
 	    <div>
-		<div className="box">
+		<div className="box" onClick={this.props.openAdd}>
 		  <span>Add Wisdom</span>
 		</div>
-		<div className="box">
+		<div className="box" onClick={this.props.openBrowse}>
                   <span>Browse Wisdom</span>
                 </div>
 	    </div>

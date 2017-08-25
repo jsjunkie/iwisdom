@@ -11,7 +11,7 @@ class Wisdom extends Component {
 
 	  const edit = this.props.editable ? (
 		<div>
-		<input type="text" value={this.props.title}></input>
+		<input type="text" placeholder="Add title.." value={this.props.title}></input>
                 <div className="improvewisdom">
                   <textarea placeholder="Add description.."></textarea>
                   <Lookup />

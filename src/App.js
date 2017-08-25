@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import { API_URL } from './constants';
+import { callAPI } from './service.js';
+import logo from './logo.png';
 
 class App extends Component {
 
@@ -12,7 +14,7 @@ class App extends Component {
   }
 
   componentDidMount(){
-    this.makeAJAXCall('GET', API_URL+'/wisdom', (data) => {
+    callAPI('GET', API_URL+'/wisdom', (data) => {
       this.setState({wisdom: data});
     }, () => {
       this.setState({wisdom: "Error fetching wisdom"});
@@ -23,11 +25,8 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>Welcome to iWisdom</h2>
+          <div><img className="App-logo" src ={logo} alt="logo"></img></div>
         </div>
-        <p className="App-intro">
-          iWisdom is an application to manage knowledge/wisdom in your organisation.
-	</p>
 	<p>
 	 {this.state.wisdom}
 	</p>
@@ -35,20 +34,6 @@ class App extends Component {
     );
   }
 
-  makeAJAXCall(methodType, url, callback, errorCallback){
-   var xhr = new XMLHttpRequest();
-   xhr.open(methodType, url, true);
-   xhr.onreadystatechange = function(){
-         if (xhr.readyState === 4 && xhr.status === 200){
-             callback(xhr.response);
-         }
-     }
-   xhr.onerror = function () {
-	errorCallback();
-   }
-     xhr.send();
-   console.log("request sent to the server");
-  }
 }
 
 export default App;

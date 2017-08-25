@@ -4,6 +4,7 @@ import { API_URL } from './constants';
 import { callAPI } from './service';
 import logo from './logo.png';
 import Search from './Search';
+import Main from './Main';
 
 class App extends Component {
 
@@ -29,6 +30,7 @@ class App extends Component {
           <div><img className="App-logo" src ={logo} alt="logo"></img></div>
         </div>
 	<Search />
+	<Main />
 	<p>
 	 {this.state.wisdom}
 	</p>

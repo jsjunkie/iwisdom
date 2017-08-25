@@ -5,6 +5,7 @@ import { callAPI } from './service';
 import logo from './logo.png';
 import Search from './Search';
 import Main from './Main';
+import AllWisdom from './AllWisdom';
 
 class App extends Component {
 
@@ -31,6 +32,7 @@ class App extends Component {
         </div>
 	<Search />
 	<Main />
+	<AllWisdom />
 	<p>
 	 {this.state.wisdom}
 	</p>

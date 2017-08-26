@@ -42,6 +42,7 @@ class App extends Component {
    }
 
   render() {
+    const home = this.state.screen === 'browse' ? (<div><button onClick={() => this.openHome()}>Home</button></div>) : '';
     const main = this.state.screen === 'main' ? <Main openAdd={() => this.openAdd()} openBrowse={() => this.openBrowse()}/> : '';
     const browse = this.state.screen === 'browse' ? <AllWisdom wisdom={this.state.wisdom}/> : '';
     const add = this.state.screen === 'add' ? <Wisdom editable="true"/> : '';
@@ -51,6 +52,7 @@ class App extends Component {
           <div><img className="App-logo" src ={logo} alt="logo" onClick={() => this.openHome()}></img></div>
         </div>
 	<Search />
+	{home}
 	{main}
 	{browse}
 	{add}

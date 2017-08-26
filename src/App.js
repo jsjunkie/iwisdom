@@ -14,11 +14,22 @@ class App extends Component {
     super();
     this.state = {
 	wisdom: [
-	  { key: 1, title: "First", description: "Fer des" },
-	  { key: 2, title: "Second", description: "Se des" }
+	  { key: 1, title: "First", description: "Fer des", editable: false, openEdit: (w) => this.openEdit(w) },
+	  { key: 2, title: "Second", description: "Se des", editable: false, openEdit: (w) => this.openEdit(w) }
 	],
 	screen: 'main'
     };
+  }
+
+  openEdit (key) {
+	var newWisdom = this.state.wisdom.map((item) => {
+	  if(item.key === key){
+	     return Object.assign({}, item, {editable: true});
+	  } else {
+	     return Object.assign({}, item, {editable: false});	
+	  }
+	})	
+  this.setState({wisdom: newWisdom});
   }
 
   componentDidMount(){
@@ -38,7 +49,10 @@ class App extends Component {
    }
 
    openHome () {
-	this.setState({screen: 'main'});
+	var newWisdom = this.state.wisdom.map((item) => {
+          return Object.assign({}, item, {editable:false});
+        });
+	this.setState({screen: 'main', wisdom: newWisdom});
    }
 
   render() {

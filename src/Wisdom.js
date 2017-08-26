@@ -4,18 +4,12 @@ import Lookup from './Lookup';
 
 class Wisdom extends Component {
 
-	constructor () {
-                super();
-                this.state = {
-                  editable: false
-                }
-          }
 	render () {
-	  const span = this.state.editable || this.props.editable ? '' : (
+	  const span = this.props.editable ? '' : (
 		<span>{this.props.title}</span>	
 	  );
 
-	  const edit = this.state.editable || this.props.editable? (
+	  const edit = this.props.editable? (
 		<div>
 		<input type="text" placeholder="Add title.." value={this.props.title}></input>
                 <div className="improvewisdom">
@@ -24,9 +18,9 @@ class Wisdom extends Component {
                 </div>
 		</div>
 		) : '';
-
+	  const key = this.props.key;
 	  return (
-	    <div className="wisdom" onClick={() => this.setState({editable: true})}>
+	    <div className="wisdom" onClick={() => this.props.openEdit()}>
 		{span}
 	    	{edit}
 	     </div>

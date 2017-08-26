@@ -4,10 +4,12 @@ import './AllWisdom.css';
 
 class AllWisdom extends Component {
 	render () {
+	  const rows = this.props.wisdom.map(function(item) {
+		return <Wisdom title={item.title} description={item.desciption} />
+	  }); 
 	  return (
 	    <div className="allwisdom">
-	    	<Wisdom title="First one"/>
-	    	<Wisdom title="Second pj"/>
+	      {rows}
 	    </div>
 	  );
 	}	

@@ -4,23 +4,29 @@ import Lookup from './Lookup';
 
 class Wisdom extends Component {
 
+	constructor () {
+                super();
+                this.state = {
+                  editable: false
+                }
+          }
 	render () {
-	  const span = this.props.editable ? '' : (
+	  const span = this.state.editable || this.props.editable ? '' : (
 		<span>{this.props.title}</span>	
 	  );
 
-	  const edit = this.props.editable ? (
+	  const edit = this.state.editable || this.props.editable? (
 		<div>
 		<input type="text" placeholder="Add title.." value={this.props.title}></input>
                 <div className="improvewisdom">
-                  <textarea placeholder="Add description.."></textarea>
+                  <textarea placeholder="Add description.." value={this.props.description}></textarea>
                   <Lookup />
                 </div>
 		</div>
 		) : '';
 
 	  return (
-	    <div className="wisdom">
+	    <div className="wisdom" onClick={() => this.setState({editable: true})}>
 		{span}
 	    	{edit}
 	     </div>

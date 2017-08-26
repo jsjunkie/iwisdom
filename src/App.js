@@ -13,16 +13,19 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-	wisdom: null,
+	wisdom: [
+	  { key: 1, title: "First", description: "Fer des" },
+	  { key: 2, title: "Second", description: "Se des" }
+	],
 	screen: 'main'
     };
   }
 
   componentDidMount(){
     callAPI('GET', API_URL+'/wisdom', (data) => {
-      this.setState({wisdom: data});
+      //this.setState({wisdom: data});
     }, () => {
-      this.setState({wisdom: "Error fetching wisdom"});
+      //this.setState({wisdom: "Error fetching wisdom"});
     });   
   }
 
@@ -40,7 +43,7 @@ class App extends Component {
 
   render() {
     const main = this.state.screen === 'main' ? <Main openAdd={() => this.openAdd()} openBrowse={() => this.openBrowse()}/> : '';
-    const browse = this.state.screen === 'browse' ? <AllWisdom /> : '';
+    const browse = this.state.screen === 'browse' ? <AllWisdom wisdom={this.state.wisdom}/> : '';
     const add = this.state.screen === 'add' ? <Wisdom editable="true"/> : '';
     return (
       <div className="App">
@@ -52,7 +55,6 @@ class App extends Component {
 	{browse}
 	{add}
 	<p>
-	 {this.state.wisdom}
 	</p>
       </div>
     );

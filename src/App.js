@@ -19,7 +19,12 @@ class App extends Component {
 	],
 	screen: 'main',
 	addWisdom : { key: '', title: '', description: ''},
+	searchStr: ''
     };
+  }
+
+  searchWisdom (str) {
+	this.setState({searchStr: str, screen: str === '' ? 'main' : 'browse'});
   }
 
   openEdit (key) {
@@ -90,7 +95,12 @@ class App extends Component {
                                 <button onClick={() => this.openHome()}>Home</button>
                         ) : '';
     const main = this.state.screen === 'main' ? <Main openAdd={() => this.openAdd()} openBrowse={() => this.openBrowse()}/> : '';
-    const browse = this.state.screen === 'browse' ? <AllWisdom wisdom={this.state.wisdom} openEdit={(key) => this.openEdit(key)}/> : '';
+    	const search = this.state.searchStr.toLowerCase();
+	var filteredWisdom = search === "" ? this.state.wisdom :  
+				this.state.wisdom.filter(item => {
+				  return item.title.toLowerCase().indexOf(search) !== -1 || item.description.toLowerCase().indexOf(search) !== -1;
+				});
+    const browse = this.state.screen === 'browse' ? <AllWisdom wisdom={filteredWisdom} openEdit={(key) => this.openEdit(key)}/> : '';
     const addedit =  this.state.screen === 'add' || this.state.screen === 'edit'  ? <Wisdom title={this.state.addWisdom.title} description={this.state.addWisdom.description} titleChange={(value) => this.titleChange(value)} descChange={(value) => this.descChange(value)}/> : '';
 
     return (
@@ -98,7 +108,7 @@ class App extends Component {
         <div className="App-header">
           <div><img className="App-logo" src ={logo} alt="logo" onClick={() => this.openHome()}></img></div>
         </div>
-	<Search />
+	<Search searchWisdom={(str) => this.searchWisdom(str)}/>
 	<div>
 	{savebutton}
 	{homebutton}

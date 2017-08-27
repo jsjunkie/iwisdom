@@ -59,6 +59,16 @@ class App extends Component {
 	this.setState({screen: 'main', wisdom: newWisdom});
    }
 
+   titleChange (value) {
+	var addWisdom = Object.assign({}, this.state.addWisdom, {title: value});
+	this.setState({addWisdom: addWisdom});
+   }
+
+   descChange (value) {
+	var addWisdom = Object.assign({}, this.state.addWisdom, {description : value});
+	this.setState({addWisdom: addWisdom});
+  }
+
    save (screen) {debugger;
 	if (screen === 'add' && this.state.addWisdom.title){
 	  var newWisdom = this.state.wisdom.slice();
@@ -80,7 +90,7 @@ class App extends Component {
 			</div>) : '';
     const main = this.state.screen === 'main' ? <Main openAdd={() => this.openAdd()} openBrowse={() => this.openBrowse()}/> : '';
     const browse = this.state.screen === 'browse' ? <AllWisdom wisdom={this.state.wisdom} openEdit={(key) => this.openEdit(key)}/> : '';
-    const add = this.state.screen === 'add' ? <Wisdom title={this.state.addWisdom.title} description={this.state.addWisdom.description} editable="true" openEdit={() => {}}/> : '';
+    const add = this.state.screen === 'add' ? <Wisdom title={this.state.addWisdom.title} description={this.state.addWisdom.description} editable="true" openEdit={() => {}} titleChange={(value) => this.titleChange(value)} descChange={(value) => this.descChange(value)}/> : '';
     return (
       <div className="App">
         <div className="App-header">

@@ -10,9 +10,9 @@ class Wisdom extends Component {
 	  );
 	  const edit = this.props.editable? (
 		<div>
-		<input type="text" placeholder="Add title.." value={this.props.title}></input>
+		<input type="text" onChange={(ev) => this.props.titleChange(ev.target.value)} placeholder="Add title.." value={this.props.title}></input>
                 <div className="improvewisdom">
-                  <textarea placeholder="Add description.." value={this.props.description}></textarea>
+                  <textarea placeholder="Add description.." onChange={(event) => this.props.descChange(event.target.value)} value={this.props.description}></textarea>
                   <Lookup />
                 </div>
 		</div>

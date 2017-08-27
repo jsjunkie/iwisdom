@@ -40,7 +40,8 @@ class App extends Component {
   }
 
    openAdd () {
-	this.setState({screen: 'add'});
+	var addWisdom = {key: '', title: '', description: ''};
+	this.setState({addWisdom: addWisdom, screen: 'add'});
     }
 
     openBrowse () {

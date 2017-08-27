@@ -18,21 +18,16 @@ class App extends Component {
 	  { key: 2, title: "Second", description: "Se des", editable: false }
 	],
 	screen: 'main',
-	addWisdom : { title: '', description: ''}
+	addWisdom : { key: '', title: '', description: ''},
     };
   }
 
-  openEdit (key) {
-	var newWisdom = this.state.wisdom.map((item) => {
-	  if(item.key === key){
-	     return Object.assign({}, item, {editable: !item.editable});
-	  } else {
-	     return Object.assign({}, item, {editable: false});	
-	  }
-	})
-
-	
-  this.setState({wisdom: newWisdom});
+  openEdit (key) {debugger;
+  	var addWisdom = this.state.wisdom.filter((item) => {
+		return item.key === key;
+	})[0];
+	addWisdom.editable = true;
+	this.setState({addWisdom: addWisdom, screen: 'edit'});
   }
  
 
@@ -70,37 +65,48 @@ class App extends Component {
   }
 
    save (screen) {debugger;
-	if (screen === 'add' && this.state.addWisdom.title){
+	if (this.state.addWisdom.title){
+	if (screen === 'add'){
 	  var newWisdom = this.state.wisdom.slice();
 	   var addWisdom = this.state.addWisdom;
 	  newWisdom.push({title: addWisdom.title, description: addWisdom.description, editable: false});
-	  this.setState({wisdom: newWisdom, addWisdom: {title: '', description: ''}});
-	  //save State
-	  this.openBrowse();
 	} else {
-
+	    var newWisdom = this.state.wisdom.map((item) => {
+		return item.key === this.state.addWisdom.key ? Object.assign({}, item, this.state.addWisdom) : item;
+	    });	    
+	}
+	this.setState({wisdom: newWisdom, addWisdom: {title: '', description: ''}});
+          //save State
+          this.openBrowse();
 	}
    }
 
   render() {
-    const buttons = (this.state.screen === 'browse' || this.state.screen === 'add') ? 
-			(<div>
+    const savebutton = (this.state.screen === 'edit' || this.state.screen === 'add') ? 
+			(
 				<button onClick={() => this.save(this.state.screen)}>Save</button>
-				<button onClick={() => this.openHome()}>Home</button>
-			</div>) : '';
+			) : '';
+    const homebutton = (this.state.screen === 'edit' || this.state.screen === 'add' || this.state.screen === 'browse') ?
+                        (
+                                <button onClick={() => this.openHome()}>Home</button>
+                        ) : '';
     const main = this.state.screen === 'main' ? <Main openAdd={() => this.openAdd()} openBrowse={() => this.openBrowse()}/> : '';
     const browse = this.state.screen === 'browse' ? <AllWisdom wisdom={this.state.wisdom} openEdit={(key) => this.openEdit(key)}/> : '';
-    const add = this.state.screen === 'add' ? <Wisdom title={this.state.addWisdom.title} description={this.state.addWisdom.description} editable="true" openEdit={() => {}} titleChange={(value) => this.titleChange(value)} descChange={(value) => this.descChange(value)}/> : '';
+    const addedit =  this.state.screen === 'add' || this.state.screen === 'edit'  ? <Wisdom title={this.state.addWisdom.title} description={this.state.addWisdom.description} editable="true" openEdit={() => {}} titleChange={(value) => this.titleChange(value)} descChange={(value) => this.descChange(value)}/> : '';
+
     return (
       <div className="App">
         <div className="App-header">
           <div><img className="App-logo" src ={logo} alt="logo" onClick={() => this.openHome()}></img></div>
         </div>
 	<Search />
-	{buttons}
+	<div>
+	{savebutton}
+	{homebutton}
+	</div>
 	{main}
 	{browse}
-	{add}
+	{addedit}
 	<p>
 	</p>
       </div>

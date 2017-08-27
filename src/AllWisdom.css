@@ -4,3 +4,16 @@
    margin: 0 auto;
    width: 645px;
 }
+
+.allwisdom > div {
+    border-bottom: 1px solid #dedede;
+    width: 635px;
+    height: auto;
+    margin: 2px auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-size: 20px;
+    text-align: left;
+    padding-left: 10px;
+}
+

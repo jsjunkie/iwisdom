@@ -14,8 +14,8 @@ class App extends Component {
     super();
     this.state = {
 	wisdom: [
-	  { key: 1, title: "First", description: "Fer des", editable: false, openEdit: (w) => this.openEdit(w) },
-	  { key: 2, title: "Second", description: "Se des", editable: false, openEdit: (w) => this.openEdit(w) }
+	  { key: 1, title: "First", description: "Fer des", editable: false },
+	  { key: 2, title: "Second", description: "Se des", editable: false }
 	],
 	screen: 'main'
     };
@@ -24,13 +24,16 @@ class App extends Component {
   openEdit (key) {
 	var newWisdom = this.state.wisdom.map((item) => {
 	  if(item.key === key){
-	     return Object.assign({}, item, {editable: true});
+	     return Object.assign({}, item, {editable: !item.editable});
 	  } else {
 	     return Object.assign({}, item, {editable: false});	
 	  }
-	})	
+	})
+
+	
   this.setState({wisdom: newWisdom});
   }
+ 
 
   componentDidMount(){
     callAPI('GET', API_URL+'/wisdom', (data) => {
@@ -58,8 +61,8 @@ class App extends Component {
   render() {
     const home = this.state.screen === 'browse' ? (<div><button onClick={() => this.openHome()}>Home</button></div>) : '';
     const main = this.state.screen === 'main' ? <Main openAdd={() => this.openAdd()} openBrowse={() => this.openBrowse()}/> : '';
-    const browse = this.state.screen === 'browse' ? <AllWisdom wisdom={this.state.wisdom}/> : '';
-    const add = this.state.screen === 'add' ? <Wisdom editable="true"/> : '';
+    const browse = this.state.screen === 'browse' ? <AllWisdom wisdom={this.state.wisdom} openEdit={(key) => this.openEdit(key)}/> : '';
+    const add = this.state.screen === 'add' ? <Wisdom editable="true" openEdit={() => {}}/> : '';
     return (
       <div className="App">
         <div className="App-header">

@@ -8,7 +8,6 @@ class Wisdom extends Component {
 	  const span = this.props.editable ? '' : (
 		<span>{this.props.title}</span>	
 	  );
-
 	  const edit = this.props.editable? (
 		<div>
 		<input type="text" placeholder="Add title.." value={this.props.title}></input>
@@ -18,7 +17,6 @@ class Wisdom extends Component {
                 </div>
 		</div>
 		) : '';
-	  const key = this.props.key;
 	  return (
 	    <div className="wisdom" onClick={() => this.props.openEdit()}>
 		{span}

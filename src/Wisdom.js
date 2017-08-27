@@ -5,10 +5,7 @@ import Lookup from './Lookup';
 class Wisdom extends Component {
 
 	render () {
-	  const span = this.props.editable ? '' : (
-		<span>{this.props.title}</span>	
-	  );
-	  const edit = this.props.editable? (
+	  const edit = (
 		<div>
 		<input type="text" onChange={(ev) => this.props.titleChange(ev.target.value)} placeholder="Add title.." value={this.props.title}></input>
                 <div className="improvewisdom">
@@ -16,10 +13,9 @@ class Wisdom extends Component {
                   <Lookup />
                 </div>
 		</div>
-		) : '';
+		);
 	  return (
-	    <div className="wisdom" onClick={() => this.props.openEdit()}>
-		{span}
+	    <div className="wisdom">
 	    	{edit}
 	     </div>
 	  )

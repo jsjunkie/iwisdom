@@ -14,15 +14,15 @@ class App extends Component {
     super();
     this.state = {
 	wisdom: [
-	  { key: 1, title: "First", description: "Fer des", editable: false },
-	  { key: 2, title: "Second", description: "Se des", editable: false }
+	  { key: 1, title: "First", description: "Fer des" },
+	  { key: 2, title: "Second", description: "Se des" }
 	],
 	screen: 'main',
 	addWisdom : { key: '', title: '', description: ''},
     };
   }
 
-  openEdit (key) {debugger;
+  openEdit (key) {
   	var addWisdom = this.state.wisdom.filter((item) => {
 		return item.key === key;
 	})[0];
@@ -48,10 +48,7 @@ class App extends Component {
    }
 
    openHome () {
-	var newWisdom = this.state.wisdom.map((item) => {
-          return Object.assign({}, item, {editable:false});
-        });
-	this.setState({screen: 'main', wisdom: newWisdom});
+	this.setState({screen: 'main'});
    }
 
    titleChange (value) {
@@ -64,12 +61,13 @@ class App extends Component {
 	this.setState({addWisdom: addWisdom});
   }
 
-   save (screen) {debugger;
+   save (screen) {
 	if (this.state.addWisdom.title){
 	if (screen === 'add'){
 	  var newWisdom = this.state.wisdom.slice();
 	   var addWisdom = this.state.addWisdom;
-	  newWisdom.push({title: addWisdom.title, description: addWisdom.description, editable: false});
+	//add key
+	  newWisdom.push({title: addWisdom.title, description: addWisdom.description});
 	} else {
 	    var newWisdom = this.state.wisdom.map((item) => {
 		return item.key === this.state.addWisdom.key ? Object.assign({}, item, this.state.addWisdom) : item;
@@ -92,7 +90,7 @@ class App extends Component {
                         ) : '';
     const main = this.state.screen === 'main' ? <Main openAdd={() => this.openAdd()} openBrowse={() => this.openBrowse()}/> : '';
     const browse = this.state.screen === 'browse' ? <AllWisdom wisdom={this.state.wisdom} openEdit={(key) => this.openEdit(key)}/> : '';
-    const addedit =  this.state.screen === 'add' || this.state.screen === 'edit'  ? <Wisdom title={this.state.addWisdom.title} description={this.state.addWisdom.description} editable="true" openEdit={() => {}} titleChange={(value) => this.titleChange(value)} descChange={(value) => this.descChange(value)}/> : '';
+    const addedit =  this.state.screen === 'add' || this.state.screen === 'edit'  ? <Wisdom title={this.state.addWisdom.title} description={this.state.addWisdom.description} titleChange={(value) => this.titleChange(value)} descChange={(value) => this.descChange(value)}/> : '';
 
     return (
       <div className="App">
@@ -107,8 +105,6 @@ class App extends Component {
 	{main}
 	{browse}
 	{addedit}
-	<p>
-	</p>
       </div>
     );
   }

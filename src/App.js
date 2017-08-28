@@ -57,18 +57,28 @@ class App extends Component {
 	this.setState({screen: 'main', searchStr: ''});
    }
 
-   titleChange (value) {
+   titleChange (value) {debugger;
 	var addWisdom = Object.assign({}, this.state.addWisdom, {title: value});
-	var lookups = value !== "" ?  [{ key: 1, title: "First", description: "Fer des" },
-          { key: 2, title: "Second", description: "Se des" }] : [];
+	var lookups = this.findSimilarWisdom(value.trim());
 	this.setState({addWisdom: addWisdom, lookups: lookups});
    }
 
    descChange (value) {
 	var addWisdom = Object.assign({}, this.state.addWisdom, {description : value});
-	var lookups = value !== "" ? [{ key: 1, title: "First", description: "Fer des" },
-          { key: 2, title: "Second", description: "Se des" }] : [];
+	var lookups = this.findSimilarWisdom(value.trim());
 	this.setState({addWisdom: addWisdom, lookups: lookups});
+  }
+
+  findSimilarWisdom (value) {
+	var valueArr = value.split(" ");
+	if (value && valueArr.length > 0){
+		var lastWord = valueArr[valueArr.length -1].toLowerCase();
+		return this.state.wisdom.filter((item) => {
+			return item.title.toLowerCase().indexOf(lastWord) !== -1 || item.description.toLowerCase().indexOf(lastWord) !== -1;
+		});
+	} else {
+		return [];
+	}
   }
 
    save (screen) {

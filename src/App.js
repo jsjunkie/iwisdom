@@ -116,7 +116,7 @@ class App extends Component {
 				  return item.title.toLowerCase().indexOf(search) !== -1 || item.description.toLowerCase().indexOf(search) !== -1;
 				});
     const browse = this.state.screen === 'browse' ? <AllWisdom wisdom={filteredWisdom} openEdit={(key) => this.openEdit(key)}/> : '';
-    const addedit =  this.state.screen === 'add' || this.state.screen === 'edit'  ? <Wisdom title={this.state.addWisdom.title} description={this.state.addWisdom.description} titleChange={(value) => this.titleChange(value)} descChange={(value) => this.descChange(value)} lookups = {this.state.lookups}/> : '';
+    const addedit =  this.state.screen === 'add' || this.state.screen === 'edit'  ? <Wisdom title={this.state.addWisdom.title} description={this.state.addWisdom.description} titleChange={(value) => this.titleChange(value)} descChange={(value) => this.descChange(value)} lookups = {this.state.lookups} improveLookup = {(key) => this.openEdit(key)}/> : '';
 
     return (
       <div className="App">

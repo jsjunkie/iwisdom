@@ -7,7 +7,8 @@ class Wisdom extends Component {
 
 	render () {
 	  const lookups = this.props.lookups;
-	  const lookup = lookups.length > 0 ? <Lookup lookups={lookups}/> : '';
+	 const improveLookup = this.props.improveLookup;
+	  const lookup = lookups.length > 0 ? <Lookup lookups={lookups} improveLookup = {(key) => this.props.improveLookup(key)}/> : '';
 	  const edit = (
 		<div>
 		<input type="text" onChange={(ev) => this.props.titleChange(ev.target.value)} placeholder="Add title.." value={this.props.title}></input>

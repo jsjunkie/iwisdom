@@ -9,7 +9,7 @@ class Lookup extends Component {
 		var rows = lookups.map((item) => {
 			return (<div key={item.key}>
 					<span>{item.title}</span>
-					<button>Improve</button>
+					<button onClick={() => this.props.improveLookup(item.key)}>Improve</button>
 				</div>);
 		});	
 		return (

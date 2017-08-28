@@ -1,7 +1,18 @@
 .lookup {
     display: inline-block;
     width: 270px;
-    height: 430px;
+    height: 419px;
     border: 1px solid #dedede;
     margin-left: 10px;
+   position: absolute;
+    margin-top: 10px;
+}
+
+.lookup button {
+	float: right;
+	margin: 2px;
+}
+
+.lookup > div {
+	border-bottom: 1px solid #dedede;
 }

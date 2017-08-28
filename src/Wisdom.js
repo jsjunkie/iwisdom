@@ -6,12 +6,13 @@ class Wisdom extends Component {
 	
 
 	render () {
-	  const lookup = this.props.showLookup ? <Lookup /> : '';
+	  const lookups = this.props.lookups;
+	  const lookup = lookups.length > 0 ? <Lookup lookups={lookups}/> : '';
 	  const edit = (
 		<div>
 		<input type="text" onChange={(ev) => this.props.titleChange(ev.target.value)} placeholder="Add title.." value={this.props.title}></input>
                 <div className="improvewisdom">
-                  <textarea placeholder="Add description.." style={this.props.showLookup ? {width: '320px'} : {width: '590px'} } onChange={(event) => this.props.descChange(event.target.value)} value={this.props.description}></textarea>
+                  <textarea placeholder="Add description.." style={ {width: '590px'} } onChange={(event) => this.props.descChange(event.target.value)} value={this.props.description}></textarea>
                   {lookup}
                 </div>
 		</div>

@@ -18,7 +18,7 @@ class App extends Component {
 	  { key: 2, title: "Second", description: "Se des" }
 	],
 	screen: 'main',
-	addWisdom : { key: '', title: '', description: ''},
+	addWisdom : { key: '', title: '', description: '', showLookup: false},
 	searchStr: ''
     };
   }
@@ -31,7 +31,6 @@ class App extends Component {
   	var addWisdom = this.state.wisdom.filter((item) => {
 		return item.key === key;
 	})[0];
-	addWisdom.editable = true;
 	this.setState({addWisdom: addWisdom, screen: 'edit'});
   }
  
@@ -54,7 +53,7 @@ class App extends Component {
    }
 
    openHome () {
-	this.setState({screen: 'main'});
+	this.setState({screen: 'main', searchStr: ''});
    }
 
    titleChange (value) {
@@ -64,6 +63,7 @@ class App extends Component {
 
    descChange (value) {
 	var addWisdom = Object.assign({}, this.state.addWisdom, {description : value});
+	addWisdom.showLookup = value !== "";
 	this.setState({addWisdom: addWisdom});
   }
 
@@ -75,11 +75,12 @@ class App extends Component {
 	//add key
 	  newWisdom.push({title: addWisdom.title, description: addWisdom.description});
 	} else {
+	     var addWisdom = this.state.addWisdom;
 	    var newWisdom = this.state.wisdom.map((item) => {
-		return item.key === this.state.addWisdom.key ? Object.assign({}, item, this.state.addWisdom) : item;
+		return item.key === this.state.addWisdom.key ? Object.assign({}, item, {title: addWisdom.title, description: addWisdom.description}) : item;
 	    });	    
 	}
-	this.setState({wisdom: newWisdom, addWisdom: {title: '', description: ''}});
+	this.setState({wisdom: newWisdom, addWisdom: {title: '', description: '', showLookup: false}});
           //save State
           this.openBrowse();
 	}
@@ -101,7 +102,7 @@ class App extends Component {
 				  return item.title.toLowerCase().indexOf(search) !== -1 || item.description.toLowerCase().indexOf(search) !== -1;
 				});
     const browse = this.state.screen === 'browse' ? <AllWisdom wisdom={filteredWisdom} openEdit={(key) => this.openEdit(key)}/> : '';
-    const addedit =  this.state.screen === 'add' || this.state.screen === 'edit'  ? <Wisdom title={this.state.addWisdom.title} description={this.state.addWisdom.description} titleChange={(value) => this.titleChange(value)} descChange={(value) => this.descChange(value)}/> : '';
+    const addedit =  this.state.screen === 'add' || this.state.screen === 'edit'  ? <Wisdom title={this.state.addWisdom.title} description={this.state.addWisdom.description} titleChange={(value) => this.titleChange(value)} descChange={(value) => this.descChange(value)} showLookup={this.state.addWisdom.showLookup}/> : '';
 
     return (
       <div className="App">

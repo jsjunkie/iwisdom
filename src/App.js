@@ -109,7 +109,7 @@ class App extends Component {
         <div className="App-header">
           <div><img className="App-logo" src ={logo} alt="logo" onClick={() => this.openHome()}></img></div>
         </div>
-	<Search searchWisdom={(str) => this.searchWisdom(str)}/>
+	<Search searchWisdom={(str) => this.searchWisdom(str)} searchStr = {this.state.searchStr}/>
 	<div>
 	{savebutton}
 	{homebutton}

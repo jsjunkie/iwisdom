@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { API_URL } from './constants';
-import { callAPI } from './service';
+import { getWisdom, improveWisdom } from './service';
 import logo from './logo.png';
 import Search from './Search';
 import Main from './Main';
@@ -13,10 +12,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-	wisdom: [
-	  { key: 1, title: "First", description: "Fer des" },
-	  { key: 2, title: "Second", description: "Se des" }
-	],
+	wisdom: [],
 	screen: 'main',
 	addWisdom : { key: '', title: '', description: ''},
 	searchStr: '',
@@ -37,9 +33,10 @@ class App extends Component {
  
 
   componentDidMount(){
-    callAPI('GET', API_URL+'/wisdom', (data) => {
-      //this.setState({wisdom: data});
-    }, () => {
+    getWisdom((data) => {
+	var wisdom = JSON.parse(data);
+        this.setState({wisdom: wisdom});
+    }, (err) => {
       //this.setState({wisdom: "Error fetching wisdom"});
     });   
   }
@@ -57,7 +54,7 @@ class App extends Component {
 	this.setState({screen: 'main', searchStr: ''});
    }
 
-   titleChange (value) {debugger;
+   titleChange (value) {
 	var addWisdom = Object.assign({}, this.state.addWisdom, {title: value});
 	var lookups = this.findSimilarWisdom(value.trim());
 	this.setState({addWisdom: addWisdom, lookups: lookups});

@@ -14,6 +14,7 @@ class Lookup extends Component {
 		});	
 		return (
 		   <div className="lookup">
+			<div className = "lookupHeading">Wisdom like this:</div>
 			{rows}
 		     </div>
 		);

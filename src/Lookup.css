@@ -16,3 +16,10 @@
 .lookup > div {
 	border-bottom: 1px solid #dedede;
 }
+
+.lookupHeading {
+	padding: 2px;
+	text-align: center;
+	font-style: italic;
+	font-size: 18px;
+}

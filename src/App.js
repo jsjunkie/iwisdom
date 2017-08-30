@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { getWisdom, addWisdomService } from './service';
+import { getWisdomService, addWisdomService } from './service';
 import logo from './logo.png';
 import Search from './Search';
 import Main from './Main';
@@ -33,8 +33,10 @@ class App extends Component {
  
 
   componentDidMount(){
-    getWisdom((data) => {
-		var wisdom = data;
+    getWisdomService((data) => {
+		var wisdom = data.map(item => {
+			return { key: item._id, title: item.title, description: item.description };
+		});;
         	this.setState({wisdom: wisdom});
     	}, (err) => {
       		//this.setState({wisdom: "Error fetching wisdom"});
@@ -83,22 +85,23 @@ class App extends Component {
 	if (screen === 'add'){
 	  var newWisdom = this.state.wisdom.slice();
 	   var addWisdom = this.state.addWisdom;
-	//add key
 	addWisdomService(addWisdom, res => {
-	 debugger;
+	 var key = res.insertedIds[0];
+	 newWisdom.push({title: addWisdom.title, description: addWisdom.description, key: key});
+	 this.setState({wisdom: newWisdom, addWisdom: {title: '', description: ''}});
+         this.openBrowse();
 	}, err => {
-	   debugger;
+	   console.log(err);
 	});
-	  newWisdom.push({title: addWisdom.title, description: addWisdom.description});
 	} else {
 	     var addWisdom = this.state.addWisdom;
 	    var newWisdom = this.state.wisdom.map((item) => {
 		return item.key === this.state.addWisdom.key ? Object.assign({}, item, {title: addWisdom.title, description: addWisdom.description}) : item;
-	    });	    
-	}
-	this.setState({wisdom: newWisdom, addWisdom: {title: '', description: '', showLookup: false}});
+	    });
+	    this.setState({wisdom: newWisdom, addWisdom: {title: '', description: ''}});
           //save State
-          this.openBrowse();
+          this.openBrowse();	    
+	}
 	}
    }
 

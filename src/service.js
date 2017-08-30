@@ -1,7 +1,7 @@
 import { API_URL } from './constants';
 import 'whatwg-fetch';
 
-export const getWisdom = function (callback, errorCallback) {
+export const getWisdomService = function (callback, errorCallback) {
 	fetch(API_URL+'/wisdom')
 	 .then(res => {
 	   res.json().then((data) => {
@@ -24,7 +24,9 @@ export const addWisdomService = function (data, callback, errorCallback) {
 	  },
 	  body: JSON.stringify(data)
 	}).then(res => {
-	   callback(res);
+	   res.json().then((result) => {
+		callback(result);
+	   });
 	}).catch(err => {
 	   errorCallback(err);
 	});

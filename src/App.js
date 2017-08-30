@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { getWisdomService, addWisdomService } from './service';
+import { getWisdomService, addWisdomService, improveWisdomService } from './service';
 import logo from './logo.png';
 import Search from './Search';
 import Main from './Main';
@@ -95,12 +95,15 @@ class App extends Component {
 	});
 	} else {
 	     var addWisdom = this.state.addWisdom;
-	    var newWisdom = this.state.wisdom.map((item) => {
-		return item.key === this.state.addWisdom.key ? Object.assign({}, item, {title: addWisdom.title, description: addWisdom.description}) : item;
+	    improveWisdomService(addWisdom, () => {
+		var newWisdom = this.state.wisdom.map((item) => {
+                return item.key === this.state.addWisdom.key ? Object.assign({}, item, {title: addWisdom.title, description: addWisdom.description}) : item;
+            });
+            	this.setState({wisdom: newWisdom, addWisdom: {title: '', description: ''}});
+          	this.openBrowse();	
+	    }, (err) => {
+		console.log(err);
 	    });
-	    this.setState({wisdom: newWisdom, addWisdom: {title: '', description: ''}});
-          //save State
-          this.openBrowse();	    
 	}
 	}
    }

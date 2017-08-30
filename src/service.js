@@ -13,7 +13,18 @@ export const getWisdomService = function (callback, errorCallback) {
 	 });
 }
 
-export const improveWisdom = function (wisdom) {
+export const improveWisdomService = function (data, callback, errorCallback) {
+	fetch(API_URL+'/edit', {
+	  method: 'POST',
+	  headers: {
+	     'Content-Type': 'application/json'
+	   },
+	  body: JSON.stringify(data)
+	}).then(res => {
+	  callback();
+	}).catch((err) => {
+	  errorCallback(err);
+	});
 }
 
 export const addWisdomService = function (data, callback, errorCallback) {

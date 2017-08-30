@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { getWisdom, improveWisdom } from './service';
+import { getWisdom, addWisdomService } from './service';
 import logo from './logo.png';
 import Search from './Search';
 import Main from './Main';
@@ -84,6 +84,11 @@ class App extends Component {
 	  var newWisdom = this.state.wisdom.slice();
 	   var addWisdom = this.state.addWisdom;
 	//add key
+	addWisdomService(addWisdom, res => {
+	 debugger;
+	}, err => {
+	   debugger;
+	});
 	  newWisdom.push({title: addWisdom.title, description: addWisdom.description});
 	} else {
 	     var addWisdom = this.state.addWisdom;

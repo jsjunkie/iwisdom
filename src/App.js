@@ -34,11 +34,11 @@ class App extends Component {
 
   componentDidMount(){
     getWisdom((data) => {
-	var wisdom = JSON.parse(data);
-        this.setState({wisdom: wisdom});
-    }, (err) => {
-      //this.setState({wisdom: "Error fetching wisdom"});
-    });   
+		var wisdom = data;
+        	this.setState({wisdom: wisdom});
+    	}, (err) => {
+      		//this.setState({wisdom: "Error fetching wisdom"});
+    	});   
   }
 
    openAdd () {

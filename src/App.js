@@ -6,101 +6,50 @@ import Search from './Search';
 import Main from './Main';
 import AllWisdom from './AllWisdom';
 import Wisdom from './Wisdom';
+import Rx from 'rxjs/Rx'
+import { reducer } from './reducer';
 
 class App extends Component {
 
   constructor() {
     super();
     this.state = {
-	wisdom: [],
-	screen: 'main',
-	addWisdom : { key: '', title: '', description: ''},
-	searchStr: '',
-	lookups : []
+		wisdom: [],
+		screen: 'main',
+		addWisdom : { key: '', title: '', description: ''},
+		searchStr: '',
+		lookups : []
     };
-  }
 
-  searchWisdom (str) {
-	this.setState({searchStr: str, screen: str === '' ? 'main' : 'browse'});
+    this.actionStream = new Rx.Subject();
+    this.actionStream.subscribe(action => {
+    	var newState = reducer(this.state, action);
+    	this.setState(newState);
+    })
   }
-
-  openEdit (key) {
-  	var addWisdom = this.state.wisdom.filter((item) => {
-		return item.key === key;
-	})[0];
-	this.setState({addWisdom: addWisdom, screen: 'edit', lookups: []});
-  }
- 
 
   componentDidMount(){
-    getWisdomService((data) => {
-		var wisdom = data.map(item => {
-			return { key: item._id, title: item.title, description: item.description };
-		});;
-        	this.setState({wisdom: wisdom});
+  	getWisdomService((data) => {
+		this.actionStream.next({type: 'gotWisdom', payload: data});
     	}, (err) => {
       		//this.setState({wisdom: "Error fetching wisdom"});
     	});   
   }
 
-   openAdd () {
-	var addWisdom = {key: '', title: '', description: ''};
-	this.setState({addWisdom: addWisdom, screen: 'add', lookups: []});
-    }
-
-    openBrowse () {
-	this.setState({screen: 'browse'});
-   }
-
-   openHome () {
-	this.setState({screen: 'main', searchStr: ''});
-   }
-
-   titleChange (value) {
-	var addWisdom = Object.assign({}, this.state.addWisdom, {title: value});
-	var lookups = this.findSimilarWisdom(value.trim());
-	this.setState({addWisdom: addWisdom, lookups: lookups});
-   }
-
-   descChange (value) {
-	var addWisdom = Object.assign({}, this.state.addWisdom, {description : value});
-	var lookups = this.findSimilarWisdom(value.trim());
-	this.setState({addWisdom: addWisdom, lookups: lookups});
-  }
-
-  findSimilarWisdom (value) {
-	var valueArr = value.split(" ");
-	if (value && valueArr.length > 0){
-		var lastWord = valueArr[valueArr.length -1].toLowerCase();
-		return this.state.wisdom.filter((item) => {
-			return item.title.toLowerCase().indexOf(lastWord) !== -1 || item.description.toLowerCase().indexOf(lastWord) !== -1;
-		});
-	} else {
-		return [];
-	}
-  }
-
-   save (screen) {
+  save (screen) {
 	if (this.state.addWisdom.title){
 	if (screen === 'add'){
-	  var newWisdom = this.state.wisdom.slice();
-	   var addWisdom = this.state.addWisdom;
+	var addWisdom = this.state.addWisdom;
 	addWisdomService(addWisdom, res => {
 	 var key = res.insertedIds[0];
-	 newWisdom.push({title: addWisdom.title, description: addWisdom.description, key: key});
-	 this.setState({wisdom: newWisdom, addWisdom: {title: '', description: ''}});
-         this.openBrowse();
+	 this.actionStream.next({type: 'addedWisdom', payload: key});
 	}, err => {
 	   console.log(err);
 	});
 	} else {
 	     var addWisdom = this.state.addWisdom;
 	    improveWisdomService(addWisdom, () => {
-		var newWisdom = this.state.wisdom.map((item) => {
-                return item.key === this.state.addWisdom.key ? Object.assign({}, item, {title: addWisdom.title, description: addWisdom.description}) : item;
-            });
-            	this.setState({wisdom: newWisdom, addWisdom: {title: '', description: ''}});
-          	this.openBrowse();	
+			this.actionStream.next({type: 'editedWisdom', payload: null});	
 	    }, (err) => {
 		console.log(err);
 	    });
@@ -115,23 +64,23 @@ class App extends Component {
 			) : '';
     const homebutton = (this.state.screen === 'edit' || this.state.screen === 'add' || this.state.screen === 'browse') ?
                         (
-                                <button onClick={() => this.openHome()}>Home</button>
+                                <button onClick={() => this.actionStream.next({type: 'openhome', payload: null})}>Home</button>
                         ) : '';
-    const main = this.state.screen === 'main' ? <Main openAdd={() => this.openAdd()} openBrowse={() => this.openBrowse()}/> : '';
+    const main = this.state.screen === 'main' ? <Main openAdd={() => this.actionStream.next({type: 'openadd', payload: null})} openBrowse={() => this.actionStream.next({type: 'openbrowse', payload: null})}/> : '';
     	const search = this.state.searchStr.toLowerCase();
 	var filteredWisdom = search === "" ? this.state.wisdom :  
 				this.state.wisdom.filter(item => {
 				  return item.title.toLowerCase().indexOf(search) !== -1 || item.description.toLowerCase().indexOf(search) !== -1;
 				});
-    const browse = this.state.screen === 'browse' ? <AllWisdom wisdom={filteredWisdom} openEdit={(key) => this.openEdit(key)}/> : '';
-    const addedit =  this.state.screen === 'add' || this.state.screen === 'edit'  ? <Wisdom title={this.state.addWisdom.title} description={this.state.addWisdom.description} titleChange={(value) => this.titleChange(value)} descChange={(value) => this.descChange(value)} lookups = {this.state.lookups} improveLookup = {(key) => this.openEdit(key)}/> : '';
+    const browse = this.state.screen === 'browse' ? <AllWisdom wisdom={filteredWisdom} openEdit={(key) => this.actionStream.next({type: 'openedit', payload: key})}/> : '';
+    const addedit =  this.state.screen === 'add' || this.state.screen === 'edit'  ? <Wisdom title={this.state.addWisdom.title} description={this.state.addWisdom.description} titleChange={(value) => this.actionStream.next({type: 'titlechange', payload: value})} descChange={(value) => this.actionStream.next({type: 'descchange', payload: value})} lookups = {this.state.lookups} improveLookup = {(key) => this.actionStream.next({type: 'openedit', payload: key})}/> : '';
 
     return (
       <div className="App">
         <div className="App-header">
-          <div><img className="App-logo" src ={logo} alt="logo" onClick={() => this.openHome()}></img></div>
+          <div><img className="App-logo" src ={logo} alt="logo" onClick={() => this.actionStream.next({type: 'openhome', payload: null})}></img></div>
         </div>
-	<Search searchWisdom={(str) => this.searchWisdom(str)} searchStr = {this.state.searchStr}/>
+	<Search searchWisdom={(str) => this.actionStream.next({type: 'search', payload: str})} searchStr = {this.state.searchStr}/>
 	<div>
 	{savebutton}
 	{homebutton}

@@ -1,7 +1,7 @@
 export const reducer = function (state, action) {
 	switch (action.type) {
 		case 'search':
-			return {searchStr: action.payload, screen: str === '' ? 'main' : 'browse'}
+			return {searchStr: action.payload, screen: action.payload === '' ? 'main' : 'browse'}
 		case 'openadd':
 			var addWisdom = {key: '', title: '', description: ''};
 			return {addWisdom: addWisdom, screen: 'add', lookups: []};
@@ -15,12 +15,12 @@ export const reducer = function (state, action) {
 		case 'openhome':
 			return {screen: 'main', searchStr: ''};
 		case 'titlechange':
-			var addWisdom = Object.assign({}, this.state.addWisdom, {title: action.payload});
-			var lookups = this.findSimilarWisdom(action.payload.trim(), state);
+			var addWisdom = Object.assign({}, state.addWisdom, {title: action.payload});
+			var lookups = findSimilarWisdom(action.payload.trim(), state);
 			return {addWisdom: addWisdom, lookups: lookups};
 		case 'descchange':
-			var addWisdom = Object.assign({}, this.state.addWisdom, {description : action.payload});
-			var lookups = this.findSimilarWisdom(action.payload.trim(), state);
+			var addWisdom = Object.assign({}, state.addWisdom, {description : action.payload});
+			var lookups = findSimilarWisdom(action.payload.trim(), state);
 			return {addWisdom: addWisdom, lookups: lookups};
 		case 'addedWisdom':
 			var key = action.payload;
@@ -46,7 +46,7 @@ export const reducer = function (state, action) {
 	} 
 }
 
-findSimilarWisdom (value, state) {
+const findSimilarWisdom = function (value, state) {
 	var valueArr = value.split(" ");
 	if (value && valueArr.length > 0){
 		var lastWord = valueArr[valueArr.length -1].toLowerCase();

@@ -1,6 +1,7 @@
 import React,{ Component } from 'react';
 import './Wisdom.css';
 import Lookup from './Lookup';
+import WisdomEditor from './WisdomEditor';
 
 class Wisdom extends Component {
 	
@@ -13,7 +14,7 @@ class Wisdom extends Component {
 		<div>
 		<input type="text" onChange={(ev) => this.props.titleChange(ev.target.value)} placeholder="Add title.." value={this.props.title}></input>
                 <div className="improvewisdom">
-                  <textarea placeholder="Add description.." style={ {width: '590px'} } onChange={(event) => this.props.descChange(event.target.value)} value={this.props.description}></textarea>
+                  <WisdomEditor hashtagClick={(hashtag) => this.props.hashtagClick(hashtag)} description= {this.props.description} descChange={(description, plainText) => this.props.descChange(description, plainText)}/>
                   {lookup}
                 </div>
 		</div>

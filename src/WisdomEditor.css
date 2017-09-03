@@ -1,0 +1,22 @@
+.wisdomeditor {
+	border: 1px solid #dedede;
+	margin: 0 auto;
+	padding: 14px;
+	width: 572px;
+	min-height: 400px;
+	margin-left: 10px;
+}
+
+.BlockStyleButtons {
+	margin: 5px;
+	padding: 5px;
+}
+
+.BlockStyleButton {
+	margin-right: 5px;
+}
+
+.hashtagSpan {
+	color: blue;
+	cursor: pointer;
+}

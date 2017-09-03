@@ -63,7 +63,6 @@ class App extends Component {
    }
 
    descChange (value, plainText) {
-   	debugger;
 	var addWisdom = Object.assign({}, this.state.addWisdom, {description : value});
 	var lookups = this.findSimilarWisdom(plainText.trim());
 	this.setState({addWisdom: addWisdom, lookups: lookups});

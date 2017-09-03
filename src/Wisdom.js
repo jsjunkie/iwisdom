@@ -11,17 +11,17 @@ class Wisdom extends Component {
 	 const improveLookup = this.props.improveLookup;
 	  const lookup = lookups.length > 0 ? <Lookup lookups={lookups} improveLookup = {(key) => this.props.improveLookup(key)}/> : '';
 	  const edit = (
-		<div>
+		<div style={{display:'inline-block'}}>
 		<input type="text" onChange={(ev) => this.props.titleChange(ev.target.value)} placeholder="Add title.." value={this.props.title}></input>
                 <div className="improvewisdom">
                   <WisdomEditor hashtagClick={(hashtag) => this.props.hashtagClick(hashtag)} description= {this.props.description} descChange={(description, plainText) => this.props.descChange(description, plainText)}/>
-                  {lookup}
                 </div>
 		</div>
 		);
 	  return (
 	    <div className="wisdom">
 	    	{edit}
+	        {lookup}
 	     </div>
 	  )
 	}

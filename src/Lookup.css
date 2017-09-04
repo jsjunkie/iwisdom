@@ -1,11 +1,13 @@
 .lookup {
     display: inline-block;
     width: 270px;
-    height: 419px;
+    height: 516px;
     border: 1px solid #dedede;
     margin-left: 10px;
-   position: absolute;
+   	position: absolute;
     margin-top: 10px;
+    padding: 5px;
+    overflow: scroll;
 }
 
 .lookup button {
@@ -15,6 +17,8 @@
 
 .lookup > div {
 	border-bottom: 1px solid #dedede;
+	padding-top: 2px;
+	padding-bottom: 2px;
 }
 
 .lookupHeading {

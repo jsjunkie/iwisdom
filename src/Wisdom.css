@@ -3,7 +3,7 @@
     width: 635px;
     height: auto;
     margin: 2px auto;
-    padding-top: 30px;
+    padding-top: 10px;
     padding-bottom: 30px;
     font-size: 20px;
     text-align: left;
@@ -19,6 +19,12 @@
     margin-bottom: 10px;
 }
 
-.wisdom input {
+
+.title {
     width: 595px;
+    height: 40px;
+    font-size: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    padding-left: 5px;
 }

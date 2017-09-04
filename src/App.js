@@ -65,11 +65,11 @@ class App extends Component {
   render() {
     const savebutton = (this.state.screen === 'edit' || this.state.screen === 'add') ? 
 			(
-				<button onClick={() => this.save(this.state.screen)}>Save</button>
+				<button className="topButton" onClick={() => this.save(this.state.screen)}>Save</button>
 			) : '';
     const homebutton = (this.state.screen === 'edit' || this.state.screen === 'add' || this.state.screen === 'browse') ?
                         (
-                                <button onClick={() => this.pushToActionStream('openhome', null)}>Home</button>
+                                <button className="topButton" onClick={() => this.pushToActionStream('openhome', null)}>Home</button>
                         ) : '';
     const main = this.state.screen === 'main' ? <Main openAdd={() => this.pushToActionStream('openadd', null)} openBrowse={() => this.pushToActionStream('openbrowse', null)}/> : '';
     	const search = this.state.searchStr.toLowerCase();

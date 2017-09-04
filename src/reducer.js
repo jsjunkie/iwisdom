@@ -11,11 +11,11 @@ export const reducer = function (state, action) {
 			var addWisdom = state.wisdom.filter((item) => {
 				return item.key === action.payload;
 			})[0];
-			return  {addWisdom: addWisdom, screen: 'edit', lookups: []};
+			return  {addWisdom: addWisdom, screen: 'edit', lookups: [], history: getNewHistory(state)};
 		case 'openbrowse':
 			return {screen: 'browse'};
 		case 'openhome':
-			return {screen: 'main', searchStr: ''};
+			return {screen: 'main', searchStr: '', history: []};
 		case 'titlechange':
 			var addWisdom = Object.assign({}, state.addWisdom, {title: action.payload});
 			var lookups = findSimilarWisdom(action.payload.trim(), state);
@@ -47,12 +47,29 @@ export const reducer = function (state, action) {
   				return convertToHashtag(item.title) === action.payload;
   			})[0];
   	
-  			return (itemToEdit && itemToEdit.key) ? {addWisdom: itemToEdit, screen: 'edit', lookups: []} : state;
+  			return (itemToEdit && itemToEdit.key) ? {addWisdom: itemToEdit, screen: 'edit', lookups: [], history: getNewHistory(state)} : state;
 	   	case 'insertlink':
 	   		return {hashtag: action.payload};
+	   	case 'back':
+	   		var history = state.history;
+	   		if (history.length > 0){
+	   			var lastState = history[history.length - 1];
+	   			return Object.assign({}, lastState);
+	   		} else {
+	   			return state;
+	   		}
+	   		
 		default:
 			return state;
 			break
 	} 
+}
+
+function getNewHistory (state) {
+	var prevState = Object.assign({}, state);
+	var history = state.history.slice();
+	history.push(prevState);
+
+	return history;
 }
 

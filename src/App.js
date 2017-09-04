@@ -19,7 +19,8 @@ class App extends Component {
 		addWisdom : { key: '', title: '', description: ''},
 		searchStr: '',
 		lookups : [],
-		hashtag: ''
+		hashtag: '',
+		history: []
     };
 
     this.actionStream = new Rx.Subject();
@@ -63,6 +64,10 @@ class App extends Component {
    }
 
   render() {
+  	const backbutton = (this.state.history.length > 0 && this.state.screen === 'edit') ? 
+			(
+				<button className="topButton" onClick={() => this.pushToActionStream('back', null)}>Back</button>
+			) : '';
     const savebutton = (this.state.screen === 'edit' || this.state.screen === 'add') ? 
 			(
 				<button className="topButton" onClick={() => this.save(this.state.screen)}>Save</button>
@@ -87,6 +92,7 @@ class App extends Component {
         </div>
 	<Search searchWisdom={(str) => this.pushToActionStream('search', str)} searchStr = {this.state.searchStr}/>
 	<div>
+	{backbutton}
 	{savebutton}
 	{homebutton}
 	</div>

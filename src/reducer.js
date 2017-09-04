@@ -17,8 +17,8 @@ export const reducer = function (state, action) {
 		case 'openhome':
 			return {screen: 'main', searchStr: '', history: []};
 		case 'titlechange':
-			var addWisdom = Object.assign({}, state.addWisdom, {title: action.payload});
-			var lookups = findSimilarWisdom(action.payload.trim(), state);
+			var addWisdom = Object.assign({}, state.addWisdom, {title: action.payload.replace('#', '')});
+			var lookups = findSimilarWisdom(action.payload.replace('#','').trim(), state);
 			return {addWisdom: addWisdom, lookups: lookups, hashtag: ''};
 		case 'descchange':
 			var addWisdom = Object.assign({}, state.addWisdom, {description : action.payload.description});

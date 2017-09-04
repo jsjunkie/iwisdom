@@ -83,7 +83,7 @@ class WisdomEditor extends Component {
 		}
 		
 		return (
-			<div>
+			<div key={this.props.key}>
 				<BlockStyleElements applyBlockStyle={(style) => this.applyBlockStyle(style)}/>
 				<div className ="wisdomeditor" onClick = {() => this.focus()}>
 					<Editor 

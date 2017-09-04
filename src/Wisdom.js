@@ -14,7 +14,7 @@ class Wisdom extends Component {
 		<div style={{display:'inline-block'}}>
 		<input type="text" onChange={(ev) => this.props.titleChange(ev.target.value)} placeholder="Add title.." value={this.props.title}></input>
                 <div className="improvewisdom">
-                  <WisdomEditor hashtag={this.props.hashtag} hashtagClick={(hashtag) => this.props.hashtagClick(hashtag)} description= {this.props.description} descChange={(description, plainText) => this.props.descChange(description, plainText)}/>
+                  <WisdomEditor key={this.props.key} hashtag={this.props.hashtag} hashtagClick={(hashtag) => this.props.hashtagClick(hashtag)} description= {this.props.description} descChange={(description, plainText) => this.props.descChange(description, plainText)}/>
                 </div>
 		</div>
 		);

@@ -6,6 +6,7 @@ import Search from './Search';
 import Main from './Main';
 import AllWisdom from './AllWisdom';
 import Wisdom from './Wisdom';
+import { convertToHashtag } from './Utilities';
 
 class App extends Component {
 
@@ -16,7 +17,8 @@ class App extends Component {
 	screen: 'main',
 	addWisdom : { key: '', title: '', description: ''},
 	searchStr: '',
-	lookups : []
+	lookups : [],
+	hashtag: ''
     };
   }
 
@@ -59,13 +61,13 @@ class App extends Component {
    titleChange (value) {
 	var addWisdom = Object.assign({}, this.state.addWisdom, {title: value});
 	var lookups = this.findSimilarWisdom(value.trim());
-	this.setState({addWisdom: addWisdom, lookups: lookups});
+	this.setState({addWisdom: addWisdom, lookups: lookups, hashtag: ''});
    }
 
    descChange (value, plainText) {
 	var addWisdom = Object.assign({}, this.state.addWisdom, {description : value});
 	var lookups = this.findSimilarWisdom(plainText.trim());
-	this.setState({addWisdom: addWisdom, lookups: lookups});
+	this.setState({addWisdom: addWisdom, lookups: lookups, hashtag: ''});
   }
 
   findSimilarWisdom (value) {
@@ -81,7 +83,15 @@ class App extends Component {
   }
 
   hashtagClick (hashtag) {
-  	alert(hashtag);
+  	var itemToEdit = this.state.wisdom.filter(item => {
+  		return convertToHashtag(item.title) === hashtag;
+  	})[0];
+
+  	this.openEdit(itemToEdit.key);
+  }
+
+  insertLink (hashtag) {
+  	this.setState({hashtag});
   }
 
    save (screen) {
@@ -128,7 +138,7 @@ class App extends Component {
 				  return item.title.toLowerCase().indexOf(search) !== -1 || item.description.toLowerCase().indexOf(search) !== -1;
 				});
     const browse = this.state.screen === 'browse' ? <AllWisdom wisdom={filteredWisdom} openEdit={(key) => this.openEdit(key)}/> : '';
-    const addedit =  this.state.screen === 'add' || this.state.screen === 'edit'  ? <Wisdom hashtagClick={(hashtag) => this.hashtagClick(hashtag)} title={this.state.addWisdom.title} description={this.state.addWisdom.description} titleChange={(value) => this.titleChange(value)} descChange={(description, plainText) => this.descChange(description, plainText)} lookups = {this.state.lookups} improveLookup = {(key) => this.openEdit(key)}/> : '';
+    const addedit =  this.state.screen === 'add' || this.state.screen === 'edit'  ? <Wisdom hashtag={this.state.hashtag} hashtagClick={(hashtag) => this.hashtagClick(hashtag)} title={this.state.addWisdom.title} description={this.state.addWisdom.description} titleChange={(value) => this.titleChange(value)} descChange={(description, plainText) => this.descChange(description, plainText)} lookups = {this.state.lookups} insertLink = {(hashtag) => this.insertLink(hashtag)}/> : '';
 
     return (
       <div className="App">

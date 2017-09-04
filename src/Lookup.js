@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
 import './Lookup.css';
+import { convertToHashtag } from './Utilities';
 
 class Lookup extends Component {
 
@@ -7,9 +8,10 @@ class Lookup extends Component {
 
 		var lookups = this.props.lookups;
 		var rows = lookups.map((item) => {
+			var hashtag = convertToHashtag(item.title);
 			return (<div key={item.key}>
 					<span>{item.title}</span>
-					<button onClick={() => this.props.improveLookup(item.key)}>Improve</button>
+					<button onClick={() => this.props.insertLink(hashtag)}>Insert</button>
 				</div>);
 		});	
 		return (

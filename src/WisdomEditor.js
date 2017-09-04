@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Editor, EditorState, RichUtils, CompositeDecorator, convertFromRaw, convertToRaw	 } from 'draft-js';
+import { Editor, EditorState, RichUtils, CompositeDecorator, convertFromRaw, convertToRaw, Modifier	} from 'draft-js';
 import './WisdomEditor.css';
 
 const BLOCK_TYPES = [
@@ -21,7 +21,7 @@ class WisdomEditor extends Component {
 
 	constructor (props) {
 		super(props);
-
+		
 		var hashtagDecorator = new CompositeDecorator([
 			{
 				strategy: hashtagStrategy,
@@ -73,13 +73,22 @@ class WisdomEditor extends Component {
 
 	render () {
 		
+		var hashtag = this.props.hashtag;
+ 		var newState = this.state.editorState;
+		var currentContent = this.state.editorState.getCurrentContent();
+		var selection = this.state.editorState.getSelection();
+		if (selection.getStartOffset() === selection.getEndOffset() && hashtag !== '') {
+			var newContentState = Modifier.insertText(currentContent, selection, hashtag);
+			var newState = EditorState.push(this.state.editorState, newContentState, 'insert-fragmant');
+		}
+		
 		return (
 			<div>
 				<BlockStyleElements applyBlockStyle={(style) => this.applyBlockStyle(style)}/>
 				<div className ="wisdomeditor" onClick = {() => this.focus()}>
 					<Editor 
 						ref="editor"
-						editorState = {this.state.editorState}
+						editorState = {newState}
 						onChange = {editorState => this.onChange(editorState)}
 						handleKeyCommand = {command => this.handleKeyCommand(command)}
 					/>

@@ -86,8 +86,10 @@ class App extends Component {
   	var itemToEdit = this.state.wisdom.filter(item => {
   		return convertToHashtag(item.title) === hashtag;
   	})[0];
-
-  	this.openEdit(itemToEdit.key);
+  	
+  	if (itemToEdit && itemToEdit.key) {
+	   	this.openEdit(itemToEdit.key);
+	}
   }
 
   insertLink (hashtag) {

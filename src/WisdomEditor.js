@@ -91,6 +91,7 @@ class WisdomEditor extends Component {
 						editorState = {newState}
 						onChange = {editorState => this.onChange(editorState)}
 						handleKeyCommand = {command => this.handleKeyCommand(command)}
+						spellCheck='true'
 					/>
 				</div>
 			</div>

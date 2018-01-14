@@ -90,7 +90,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <div><img className="App-logo" src ={logo} alt="logo" onClick={() => this.openHome()}></img></div>
+          <div><img className="App-logo" src ={logo} alt="logo" onClick={() => this.pushToActionStream('openhome', null)}></img></div>
         </div>
 	<Search searchWisdom={(str) => this.pushToActionStream('search', str)} searchStr = {this.state.searchStr}/>
 	<div>

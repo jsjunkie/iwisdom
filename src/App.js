@@ -7,7 +7,6 @@ import Main from './Main';
 import AllWisdom from './AllWisdom';
 import Wisdom from './Wisdom';
 import { reducer } from './reducer';
-import Rx from 'rxjs/Rx';
 
 class App extends Component {
 
@@ -22,12 +21,6 @@ class App extends Component {
 		hashtag: '',
 		history: []
     };
-
-    this.actionStream = new Rx.Subject();
-    this.actionStream.subscribe(action => {
-    	var newState = reducer(this.state, action);
-    	this.setState(newState);
-    });
   }
 
   componentDidMount(){
@@ -39,7 +32,8 @@ class App extends Component {
   }
 
   pushToActionStream (type, payload) {
-  	this.actionStream.next({type, payload});
+  	var newState = reducer(this.state, {type, payload});
+    this.setState(newState);
   }
 
   save (screen) {

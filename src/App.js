@@ -19,7 +19,8 @@ class App extends Component {
 		searchStr: '',
 		lookups : [],
 		hashtag: '',
-		history: []
+		history: [],
+		saving: false
     };
   }
 
@@ -37,21 +38,28 @@ class App extends Component {
   }
 
   save (screen) {
-	if (this.state.addWisdom.title){
+	if (this.state.addWisdom.title && !this.state.saving){
+	this.setState({saving: true});
 	if (screen === 'add'){
 	   var addWisdom = this.state.addWisdom;
 		addWisdomService(addWisdom, res => {
 	 		var key = res.insertedIds[0];
 	 		this.pushToActionStream('addedWisdom', key);
+	 		this.setState({saving: false})
 		}, err => {
 	   		console.log(err);
+	   		this.setState({saving: false})
+
 		});
 	} else {
 	     var addWisdom = this.state.addWisdom;
 	    improveWisdomService(addWisdom, () => {
-			this.pushToActionStream('editedWisdom', null)	
+			this.pushToActionStream('editedWisdom', null)
+		 	this.setState({saving: false})
+	
 	    }, (err) => {
 			console.log(err);
+	 		this.setState({saving: false})
 	    });
 	}
 	}
